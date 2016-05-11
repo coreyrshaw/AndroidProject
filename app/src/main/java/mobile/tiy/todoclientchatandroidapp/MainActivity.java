@@ -1,5 +1,6 @@
 package mobile.tiy.todoclientchatandroidapp;
 
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -28,13 +29,11 @@ import android.widget.ListView;
         items = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         list.setAdapter(items);
 
-
-        items.add("Test ToDo 1");
-        items.add("Test ToDo 2");
-
         addButton.setOnClickListener(this);
         list.setOnItemLongClickListener(this);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
     }
         @Override
@@ -42,6 +41,11 @@ import android.widget.ListView;
             String item = text.getText().toString();
             items.add(item);
             text.setText("");
+
+            ChatClient chatclient = new ChatClient();
+            String message = item;
+
+            chatclient.sendMessage(message);
         }
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
